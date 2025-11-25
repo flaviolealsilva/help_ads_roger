@@ -22,7 +22,7 @@ const Header: React.FC = () => {
         
         <div className="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/50 border border-white/5">
           <ShieldCheck className="w-4 h-4 text-green-400" />
-          <span className="text-xs text-slate-300 font-mono">UNG.SISTEMAS.SECURE</span>
+          <span className="text-xs text-slate-300 font-mono">UNG.FLAVIO.SECURE.SYS</span>
         </div>
       </div>
     </header>
