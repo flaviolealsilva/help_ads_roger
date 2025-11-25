@@ -1,191 +1,281 @@
+
 import { Module, QuestionType } from './types';
+
+// Helper to create questions quickly
+const createQ = (id: string, q: string, opts: string[], correctIdx: number, exp: string, diff: 'Easy' | 'Medium' | 'Hard' = 'Medium', ctx?: string) => ({
+  id,
+  type: QuestionType.MULTIPLE_CHOICE,
+  question: q,
+  context: ctx,
+  options: opts.map((t, i) => ({ id: `${id}_${i}`, text: t, isCorrect: i === correctIdx })),
+  explanation: exp,
+  difficulty: diff
+});
 
 export const modules: Module[] = [
   {
     id: 'mod1',
-    title: 'Fundamentos & Organização',
-    description: 'Dados vs. Informação, Níveis Organizacionais e o Papel do Analista.',
-    icon: 'Building',
-    color: 'bg-blue-500',
+    title: 'Módulo 01',
+    subtitle: 'Fundamentos de SI',
+    description: 'Dados, Informação, TGS e Níveis Organizacionais (Aula 1).',
+    icon: 'Database',
+    color: 'text-cyan-400',
+    borderColor: 'border-cyan-500/30',
     summary: [
-      'Dados: Elementos brutos (textos, números). Informação: Dados processados com contexto.',
-      'Sistema de Informação (SI): Entrada -> Processamento -> Saída -> Feedback.',
-      'Níveis Decisórios: Estratégico (Alta direção/Longo prazo), Tático (Gerência/Médio prazo), Operacional (Rotina/Curto prazo).',
-      'O Analista de Sistemas: Resolve problemas de negócio usando tecnologia.'
+      'Diferença entre Dados (brutos) e Informação (processados).',
+      'Sistema de Informação: Entrada > Processamento > Saída > Feedback.',
+      'Níveis Organizacionais: Estratégico (Longo prazo), Tático (Médio prazo), Operacional (Curto prazo).',
+      'Papel do Analista: Ponte entre negócio e tecnologia.'
     ],
     questions: [
-      {
-        id: 'q1_1',
-        type: QuestionType.MULTIPLE_CHOICE,
-        question: 'A Fábrica Nacional de Peças precisa decidir se abre uma nova filial em outro estado (decisão de longo prazo). Qual nível organizacional é responsável por esta decisão?',
-        options: [
-          { id: 'a', text: 'Nível Operacional', isCorrect: false },
-          { id: 'b', text: 'Nível Tático', isCorrect: false },
-          { id: 'c', text: 'Nível Estratégico', isCorrect: true },
-          { id: 'd', text: 'Nível de Suporte', isCorrect: false }
-        ],
-        explanation: 'O Nível Estratégico (Alta direção) define metas, lucratividade e caminhos do negócio a longo prazo.'
-      },
-      {
-        id: 'q1_2',
-        type: QuestionType.DRAG_DROP, // Simulated via selection
-        question: 'Classifique os itens abaixo como DADO ou INFORMAÇÃO:',
-        context: 'Cenário: Relatório de Vendas',
-        options: [
-          { id: 'a', text: 'O número solto "4500"', category: 'DADO', isCorrect: true },
-          { id: 'b', text: 'Gráfico de "Vendas por Região em 2025"', category: 'INFORMAÇÃO', isCorrect: true },
-          { id: 'c', text: 'Lista de CPFs sem contexto', category: 'DADO', isCorrect: true },
-          { id: 'd', text: 'Relatório de clientes inadimplentes', category: 'INFORMAÇÃO', isCorrect: true }
-        ],
-        explanation: 'Dados são brutos. Informação é o dado processado que gera conhecimento para tomada de decisão.'
-      }
+      createQ('m1_1', 'O que define melhor o conceito de "Dado" no contexto de sistemas?', ['Conjunto de fatos organizados com valor.', 'Conhecimento aplicado à tomada de decisão.', 'Elementos brutos como textos, números ou imagens sem contexto.', 'Relatórios gerenciais complexos.'], 2, 'Dados são a matéria-prima bruta, sem contexto.', 'Easy'),
+      createQ('m1_2', 'Qual é o resultado do processamento de dados que gera valor para o usuário?', ['Hardware.', 'Informação.', 'Banco de Dados.', 'Feedback.'], 1, 'Informação é o dado processado, contextualizado e útil.', 'Easy'),
+      createQ('m1_3', 'Em um Sistema de Informação, o que é o "Feedback"?', ['A entrada de dados.', 'O hardware utilizado.', 'A reação corretiva baseada na saída para ajustar a entrada.', 'O relatório final impresso.'], 2, 'Feedback é o mecanismo de controle que ajusta o sistema.', 'Medium'),
+      createQ('m1_4', 'A alta direção da empresa "Aço Brasil" decide abrir uma filial na China daqui a 5 anos. Qual nível organizacional tomou esta decisão?', ['Operacional.', 'Tático.', 'Estratégico.', 'Técnico.'], 2, 'Decisões de longo prazo e alto impacto são do nível Estratégico.', 'Medium'),
+      createQ('m1_5', 'O gerente de vendas define a meta mensal para a equipe. Esta é uma decisão de qual nível?', ['Estratégico.', 'Tático.', 'Operacional.', 'Executivo.'], 1, 'O nível Tático traduz estratégias em ações de médio prazo (gerência).', 'Medium'),
+      createQ('m1_6', 'Um vendedor registra uma venda no sistema PDV. Em que nível isso ocorre?', ['Estratégico.', 'Tático.', 'Operacional.', 'Analítico.'], 2, 'O nível Operacional lida com a rotina diária e execução.', 'Easy'),
+      createQ('m1_7', 'Qual das opções NÃO é um componente de um Sistema de Informação Computadorizado?', ['Hardware.', 'Software.', 'Pessoas.', 'Intuição.'], 3, 'Os componentes são: Hardware, Software, Dados, Redes, Pessoas e Procedimentos.', 'Easy'),
+      createQ('m1_8', 'O que é o "Ambiente" de um sistema de informação?', ['Apenas o escritório onde ficam os computadores.', 'O conjunto de fatores internos e externos que influenciam o sistema.', 'O sistema operacional do servidor.', 'A linguagem de programação usada.'], 1, 'O ambiente inclui leis, concorrentes, cultura da empresa, etc.', 'Medium'),
+      createQ('m1_9', 'Como a "Obsolescência" afeta um sistema?', ['Torna o sistema mais rápido.', 'Reduz o retorno sobre o investimento e exige substituição.', 'Aumenta a segurança dos dados.', 'Não tem impacto em software.'], 1, 'Sistemas obsoletos geram alto custo de manutenção e baixo valor.', 'Medium'),
+      createQ('m1_10', 'Qual característica é essencial para um Analista de Sistemas?', ['Saber apenas programar.', 'Visão sistêmica e habilidade de comunicação.', 'Trabalhar isolado.', 'Ignorar regras de negócio.'], 1, 'O analista precisa entender o negócio e comunicar com pessoas.', 'Medium'),
+      createQ('m1_11', 'Um gráfico de barras mostrando a evolução das vendas no ano é um exemplo de:', ['Dado.', 'Informação.', 'Hardware.', 'Entrada.'], 1, 'Dados organizados visualmente para análise são Informação.', 'Easy'),
+      createQ('m1_12', 'O número "45.90" solto em um papel é um exemplo de:', ['Dado.', 'Informação.', 'Conhecimento.', 'Sabedoria.'], 0, 'Sem contexto, é apenas um dado bruto.', 'Easy'),
+      createQ('m1_13', 'Qual a função do "Mecanismo de Transformação" em um sistema?', ['Coletar dados brutos.', 'Converter dados em saídas úteis.', 'Armazenar backups.', 'Gerar feedback manual.'], 1, 'É o processamento que aplica lógica aos dados.', 'Medium'),
+      createQ('m1_14', 'Fatores externos que influenciam um SI incluem:', ['Cultura organizacional.', 'Leis e regulamentações governamentais.', 'Processos internos.', 'Equipe de TI.'], 1, 'Leis e governo são fatores externos ao controle da empresa.', 'Medium'),
+      createQ('m1_15', 'A Internet trouxe qual benefício principal para os SI nas empresas?', ['Isolamento de dados.', 'Aumento da burocracia.', 'Compartilhamento de informações em tempo real e alcance global.', 'Redução da necessidade de computadores.'], 2, 'Conectividade global e tempo real.', 'Easy'),
+      createQ('m1_16', 'Um sistema que controla o estoque minuto a minuto apoia principalmente:', ['Decisões estratégicas de 10 anos.', 'A operação diária da empresa.', 'O planejamento de marketing.', 'A auditoria externa.'], 1, 'Controle minuto a minuto é operacional.', 'Easy'),
+      createQ('m1_17', 'Conhecimento é:', ['O mesmo que dado.', 'Informação internalizada e usada para ação/decisão.', 'Um conjunto de bytes.', 'Um hardware potente.'], 1, 'Conhecimento é a aplicação da informação.', 'Medium'),
+      createQ('m1_18', 'Sistemas de Informação são exclusivos da área de TI?', ['Sim, só TI usa.', 'Não, são usados em quase todas as profissões e áreas.', 'Apenas para engenheiros.', 'Apenas para bancos.'], 1, 'SI são onipresentes em todas as áreas de negócio.', 'Easy'),
+      createQ('m1_19', 'A "Entrada" de um sistema corresponde a:', ['Produção de relatórios.', 'Captura e coleta de dados brutos.', 'Cálculos matemáticos.', 'Análise de resultados.'], 1, 'Entrada é o input de dados.', 'Easy'),
+      createQ('m1_20', 'Um "Analista de Sistemas" deve focar:', ['Apenas no código.', 'Apenas no hardware.', 'Na solução de problemas de negócio através da tecnologia.', 'Apenas em design gráfico.'], 2, 'O foco é resolver problemas e agregar valor ao negócio.', 'Medium'),
     ]
   },
   {
     id: 'mod2',
-    title: 'Ciclo de Vida & Métodos',
-    description: 'Waterfall, Ágil (Scrum) e as etapas de desenvolvimento.',
-    icon: 'RefreshCw',
-    color: 'bg-emerald-500',
+    title: 'Módulo 02',
+    subtitle: 'Ciclo de Vida & Metodologias',
+    description: 'Waterfall, Ágil, Scrum e fases de desenvolvimento (Aulas 2 e 3).',
+    icon: 'GitMerge',
+    color: 'text-violet-400',
+    borderColor: 'border-violet-500/30',
     summary: [
-      'Ciclo de Vida: Planejamento -> Análise -> Projeto -> Implementação -> Testes -> Implantação -> Manutenção.',
-      'Waterfall (Cascata): Sequencial, rígido, muita documentação inicial.',
-      'Iterativo/Incremental: O sistema cresce em partes funcionais.',
-      'Ágil (Scrum): Sprints curtas, feedback constante, adaptabilidade a mudanças.'
+      'Métodos Tradicionais (Waterfall): Sequencial, rígido, ênfase em documentação.',
+      'Métodos Ágeis (Scrum): Iterativo, flexível, foco em valor e comunicação.',
+      'Ciclo de Vida: Planejamento > Análise > Projeto > Implementação > Testes > Implantação > Manutenção.',
+      'Scrum: Sprints, Product Owner, Scrum Master, Backlog.'
     ],
     questions: [
-      {
-        id: 'q2_1',
-        type: QuestionType.MULTIPLE_CHOICE,
-        question: 'Você foi contratado para um projeto onde os requisitos mudam constantemente e o cliente precisa de entregas rápidas de valor. Qual metodologia é mais indicada?',
-        options: [
-          { id: 'a', text: 'Waterfall (Cascata)', isCorrect: false },
-          { id: 'b', text: 'Ágil (Scrum)', isCorrect: true },
-          { id: 'c', text: 'Prototipagem Descartável', isCorrect: false }
-        ],
-        explanation: 'Métodos ágeis são ideais para ambientes instáveis e necessidade de feedback rápido (Sprints).'
-      },
-      {
-        id: 'q2_2',
-        type: QuestionType.TRUE_FALSE,
-        question: 'Na fase de "Projeto" (Design), o foco é escrever o código fonte final da aplicação.',
-        options: [
-          { id: 'true', text: 'Verdadeiro', isCorrect: false },
-          { id: 'false', text: 'Falso', isCorrect: true }
-        ],
-        explanation: 'Falso. A fase de Projeto define "como" o sistema será (arquitetura, interfaces, banco de dados). A codificação ocorre na fase de Implementação.'
-      }
+      createQ('m2_1', 'Qual a principal característica do modelo Waterfall (Cascata)?', ['Iterações rápidas.', 'Fases sequenciais e rígidas.', 'Pouca documentação.', 'Feedback constante do cliente.'], 1, 'Waterfall segue uma ordem linear: uma fase só começa quando a anterior termina.', 'Medium'),
+      createQ('m2_2', 'No Scrum, o que é uma "Sprint"?', ['Uma corrida da equipe.', 'Um ciclo de desenvolvimento curto e fixo (ex: 2 a 4 semanas).', 'O documento de requisitos.', 'O teste final do software.'], 1, 'Sprint é o ciclo iterativo fundamental do Scrum.', 'Easy'),
+      createQ('m2_3', 'Qual metodologia é recomendada quando os requisitos mudam frequentemente?', ['Waterfall.', 'Tradicional.', 'Ágil.', 'Estruturada Pura.'], 2, 'Metodologias Ágeis abraçam a mudança.', 'Easy'),
+      createQ('m2_4', 'O que ocorre na fase de "Análise de Requisitos"?', ['Escreve-se o código.', 'Instala-se o servidor.', 'Identificam-se e documentam-se as necessidades dos stakeholders.', 'Treinam-se os usuários.'], 2, 'É a fase de entender O QUE o sistema deve fazer.', 'Medium'),
+      createQ('m2_5', 'O que é "Scope Creep"?', ['Um tipo de vírus.', 'O aumento descontrolado do escopo do projeto.', 'Uma ferramenta de modelagem.', 'Um método de teste.'], 1, 'É quando o projeto cresce sem controle ou aprovação formal.', 'Hard'),
+      createQ('m2_6', 'Qual o papel do "Product Owner" no Scrum?', ['Escrever código.', 'Gerenciar o servidor.', 'Maximizar o valor do produto e gerenciar o Backlog.', 'Remover impedimentos técnicos.'], 2, 'O PO define "o que" será feito e a prioridade.', 'Medium'),
+      createQ('m2_7', 'A "Prototipagem" ajuda a:', ['Aumentar o custo.', 'Eliminar a necessidade de programadores.', 'Validar requisitos visualmente com o usuário antes da codificação final.', 'Substituir o banco de dados.'], 2, 'Protótipos reduzem riscos de mal-entendidos.', 'Medium'),
+      createQ('m2_8', 'Na fase de "Projeto" (Design), definimos:', ['O que o sistema faz.', 'Como o sistema será construído (arquitetura, interfaces).', 'O código fonte.', 'O manual do usuário.'], 1, 'Projeto é sobre a solução técnica ("Como").', 'Medium'),
+      createQ('m2_9', 'O que é "Manutenção Corretiva"?', ['Adicionar novas funções.', 'Melhorar a performance.', 'Corrigir falhas e bugs encontrados.', 'Migrar para a nuvem.'], 2, 'Corretiva visa consertar erros.', 'Easy'),
+      createQ('m2_10', 'A "Implantação em Fases" significa:', ['Desligar o sistema antigo e ligar o novo de uma vez.', 'Introduzir o sistema gradualmente por módulos ou setores.', 'Rodar dois sistemas ao mesmo tempo.', 'Nunca terminar o projeto.'], 1, 'Reduz o risco introduzindo o sistema aos poucos.', 'Medium'),
+      createQ('m2_11', 'Qual a desvantagem da Implantação Direta?', ['É muito lenta.', 'Alto risco, pois não há backup se o novo falhar.', 'Muito cara.', 'Exige dois servidores.'], 1, 'Se o novo sistema falhar, a empresa para.', 'Hard'),
+      createQ('m2_12', 'No modelo Iterativo, o sistema é desenvolvido:', ['De uma só vez.', 'Em incrementos funcionais sucessivos.', 'Apenas no final do ano.', 'Sem testes.'], 1, 'Cada iteração entrega uma parte funcional.', 'Medium'),
+      createQ('m2_13', 'Qual o objetivo da "Viabilidade Técnica" no Planejamento?', ['Saber se temos dinheiro.', 'Saber se os usuários vão gostar.', 'Saber se a tecnologia e recursos disponíveis suportam o projeto.', 'Saber se é legal.'], 2, 'Foca na capacidade tecnológica.', 'Medium'),
+      createQ('m2_14', 'O "Scrum Master" é responsável por:', ['Mandar na equipe.', 'Escrever os requisitos.', 'Facilitar o processo e remover impedimentos.', 'Testar o software.'], 2, 'Ele é um líder servidor e guardião do processo.', 'Medium'),
+      createQ('m2_15', 'Documentação excessiva é uma crítica comum a qual modelo?', ['Scrum.', 'XP.', 'Kanban.', 'Waterfall.'], 3, 'O modelo tradicional exige muita documentação antes de começar.', 'Easy'),
+      createQ('m2_16', 'A fase de "Testes" visa:', ['Criar bugs.', 'Garantir que o sistema atenda aos requisitos e funcione corretamente.', 'Desenhar telas.', 'Contratar pessoas.'], 1, 'QA e validação da qualidade.', 'Easy'),
+      createQ('m2_17', 'O "Backlog do Produto" é:', ['Uma lista de erros.', 'Uma lista ordenada de tudo que é necessário no produto.', 'Um log de acesso.', 'Um backup.'], 1, 'É a lista de desejos/requisitos do projeto ágil.', 'Medium'),
+      createQ('m2_18', 'Manutenção "Evolutiva" serve para:', ['Corrigir bugs.', 'Adaptar à nova lei.', 'Adicionar novas funcionalidades ou melhorias.', 'Limpar o banco de dados.'], 2, 'Evoluir o sistema com novos recursos.', 'Medium'),
+      createQ('m2_19', 'O estudo de viabilidade econômica analisa:', ['Hardware.', 'Software.', 'Custo vs Benefício.', 'Leis trabalhistas.'], 2, 'Se o retorno financeiro justifica o investimento.', 'Easy'),
+      createQ('m2_20', 'Em metodologias ágeis, a comunicação deve ser:', ['Apenas por e-mail.', 'Formal e documentada.', 'Constante e direta entre equipe e stakeholders.', 'Inexistente.'], 2, 'Comunicação face a face é valorizada.', 'Easy'),
     ]
   },
   {
     id: 'mod3',
-    title: 'Engenharia de Requisitos',
-    description: 'Funcionais, Não-Funcionais e Técnicas de Elicitação.',
+    title: 'Módulo 03',
+    subtitle: 'Engenharia de Requisitos',
+    description: 'Elicitação, Requisitos Funcionais e Não-Funcionais (Aula 4).',
     icon: 'ListChecks',
-    color: 'bg-amber-500',
+    color: 'text-emerald-400',
+    borderColor: 'border-emerald-500/30',
     summary: [
-      'Requisito Funcional (RF): O que o sistema faz (ex: Calcular folha de pagamento).',
-      'Requisito Não-Funcional (RNF): Como o sistema é (Qualidade, Segurança, Performance, ex: O sistema deve responder em 2s).',
-      'Técnicas: Entrevistas (qualitativa), Questionários (quantitativa/geográfica), Etnografia (observação cultural), Prototipação (visualização).'
+      'Requisito Funcional (RF): O que o sistema faz (funções, cadastros, relatórios).',
+      'Requisito Não-Funcional (RNF): Como o sistema é (desempenho, segurança, usabilidade).',
+      'Técnicas: Entrevista (conversas), Questionário (quantitativo), Etnografia (observação), Prototipação (visual).',
+      'Requisito de Usuário vs Sistema: Linguagem natural vs Detalhamento técnico.'
     ],
     questions: [
-      {
-        id: 'q3_1',
-        type: QuestionType.MULTIPLE_CHOICE,
-        question: 'Analise o requisito da Farmácia: "O sistema deve permitir consultar o estoque pelo código de barras". Que tipo de requisito é este?',
-        options: [
-          { id: 'a', text: 'Requisito Não-Funcional', isCorrect: false },
-          { id: 'b', text: 'Requisito Funcional', isCorrect: true },
-          { id: 'c', text: 'Regra de Negócio Externa', isCorrect: false }
-        ],
-        explanation: 'É funcional porque descreve uma tarefa/serviço que o sistema executa.'
-      },
-      {
-        id: 'q3_2',
-        type: QuestionType.MULTIPLE_CHOICE,
-        question: 'Para entender a cultura de trabalho e rotinas ocultas dos funcionários do almoxarifado, qual a melhor técnica?',
-        options: [
-          { id: 'a', text: 'Questionário Online', isCorrect: false },
-          { id: 'b', text: 'Análise de Documentos', isCorrect: false },
-          { id: 'c', text: 'Estudo Etnográfico (Observação)', isCorrect: true }
-        ],
-        explanation: 'A etnografia/observação permite ver o que as pessoas realmente fazem, não apenas o que dizem fazer.'
-      }
+      createQ('m3_1', 'O que é um Requisito Funcional?', ['Uma restrição de hardware.', 'Uma função ou serviço que o sistema deve fornecer.', 'Uma norma de qualidade.', 'A cor do botão.'], 1, 'Descreve comportamentos e funções do sistema.', 'Easy'),
+      createQ('m3_2', 'O que é um Requisito Não-Funcional?', ['Um cálculo de imposto.', 'Um cadastro de cliente.', 'Uma restrição ou qualidade (ex: segurança, performance).', 'Um relatório de vendas.'], 2, 'Define atributos de qualidade e restrições.', 'Easy'),
+      createQ('m3_3', '"O sistema deve calcular o ICMS automaticamente". Isso é:', ['RF.', 'RNF.', 'Regra de interface.', 'Hardware.'], 0, 'É uma função do sistema (cálculo).', 'Easy'),
+      createQ('m3_4', '"O sistema deve responder a consultas em menos de 2 segundos". Isso é:', ['RF.', 'RNF.', 'Regra de negócio.', 'Entrada de dados.'], 1, 'É um requisito de desempenho (Qualidade).', 'Easy'),
+      createQ('m3_5', 'Qual técnica de levantamento envolve observar o usuário em seu ambiente de trabalho?', ['Entrevista.', 'Questionário.', 'Etnografia (Observação).', 'JAD.'], 2, 'Etnografia foca na cultura e rotina real.', 'Medium'),
+      createQ('m3_6', 'Para coletar dados de 1000 usuários espalhados pelo país, qual a melhor técnica?', ['Entrevista individual.', 'Questionário.', 'Observação.', 'Reunião presencial.'], 1, 'Questionários têm alto alcance geográfico.', 'Medium'),
+      createQ('m3_7', 'A "Entrevista" é boa para:', ['Coletar dados estatísticos.', 'Obter detalhes profundos e esclarecer dúvidas.', 'Testar o código.', 'Desenhar telas.'], 1, 'Permite aprofundamento e interação.', 'Easy'),
+      createQ('m3_8', 'O que significa "Congelar Requisitos"?', ['Parar o projeto.', 'Não aceitar mais mudanças no escopo base para evitar atrasos.', 'Salvar o arquivo.', 'Esfriar o servidor.'], 1, 'Evita o escopo infinito e garante entrega.', 'Hard'),
+      createQ('m3_9', '"O sistema deve rodar em Windows e Linux". Isso é requisito de:', ['Funcionalidade.', 'Portabilidade (RNF).', 'Usabilidade.', 'Segurança.'], 1, 'Refere-se à plataforma (Portabilidade).', 'Medium'),
+      createQ('m3_10', 'A "Prototipagem" na elicitação serve para:', ['Programar o sistema final.', 'Validar a interface e entendimento dos requisitos com o usuário.', 'Fazer backup.', 'Gerar relatórios.'], 1, 'Ajuda o usuário a visualizar o que pediu.', 'Medium'),
+      createQ('m3_11', 'Requisitos de Usuário são escritos em:', ['Código Java.', 'SQL.', 'Linguagem natural compreensível pelo cliente.', 'Binário.'], 2, 'Devem ser entendidos por não-técnicos.', 'Medium'),
+      createQ('m3_12', 'Requisitos de Sistema são:', ['Abstratos.', 'Detalhados e técnicos para desenvolvedores.', 'Apenas verbais.', 'Irrelevantes.'], 1, 'São a base para o design e codificação.', 'Medium'),
+      createQ('m3_13', 'Uma "Regra de Negócio" (ex: "Cliente deve ter CPF") pode gerar:', ['Um requisito funcional (Validação).', 'Um vírus.', 'Um hardware.', 'Nada.'], 0, 'Regras de negócio viram requisitos de validação.', 'Medium'),
+      createQ('m3_14', 'O documento que consolida todos os requisitos chama-se:', ['Nota Fiscal.', 'Especificação de Requisitos de Software (SRS).', 'Manual do Usuário.', 'Contrato.'], 1, 'É o documento oficial do escopo.', 'Hard'),
+      createQ('m3_15', 'Qual a principal dificuldade na Engenharia de Requisitos?', ['Escrever rápido.', 'Comunicação e ambiguidade entre partes.', 'Usar o Word.', 'Fazer desenhos.'], 1, 'Entender o que o usuário realmente quer é o maior desafio.', 'Medium'),
+      createQ('m3_16', '"O sistema deve ser fácil de aprender (treinamento < 2h)". Isso é:', ['Usabilidade (RNF).', 'Funcional.', 'Segurança.', 'Confiabilidade.'], 0, 'Usabilidade mede a facilidade de uso.', 'Medium'),
+      createQ('m3_17', 'A técnica JAD (Joint Application Design) envolve:', ['Trabalho isolado.', 'Workshops intensivos com usuários e analistas juntos.', 'Apenas questionários.', 'Observação passiva.'], 1, 'JAD foca em colaboração intensa.', 'Hard'),
+      createQ('m3_18', 'Priorizar requisitos é importante para:', ['Fazer tudo de uma vez.', 'Entregar o mais valioso primeiro.', 'Ignorar o cliente.', 'Aumentar o custo.'], 1, 'Recursos são finitos; o mais importante vem antes.', 'Easy'),
+      createQ('m3_19', 'O que é "Rastreabilidade" de requisitos?', ['Saber quem pediu e onde foi implementado cada requisito.', 'Usar GPS.', 'Perder os requisitos.', 'Rastrear o mouse.'], 0, 'Permite seguir a vida do requisito do pedido ao código.', 'Hard'),
+      createQ('m3_20', 'Um sistema bancário exige "Alta Confiabilidade". Isso significa:', ['Ser bonito.', 'Estar disponível e não falhar (RNF).', 'Ter muitas cores.', 'Ser barato.'], 1, 'Confiabilidade é crítica para bancos.', 'Easy'),
     ]
   },
   {
     id: 'mod4',
-    title: 'Análise Estruturada (DFD)',
-    description: 'Modelando o fluxo da informação e processos.',
-    icon: 'GitMerge',
-    color: 'bg-purple-500',
+    title: 'Módulo 04',
+    subtitle: 'Análise Estruturada',
+    description: 'DFD, Dicionário de Dados e Fluxogramas (Aulas 10 e 11).',
+    icon: 'Network',
+    color: 'text-amber-400',
+    borderColor: 'border-amber-500/30',
     summary: [
       'Foco: Processos e Fluxo de Dados.',
-      'DFD (Diagrama de Fluxo de Dados): Mapa lógico de como o dado viaja.',
-      'Elementos do DFD: Processo (transforma), Entidade Externa (origem/destino), Depósito de Dados (armazenamento), Fluxo (setas).',
-      'Fluxograma: Representa a lógica de decisão e sequência (Losangos para decisão).'
+      'DFD: Processo (círculo/retângulo), Entidade (quadrado), Depósito (retângulo aberto), Fluxo (seta).',
+      'Níveis DFD: Contexto (0), Nível 1 (explosão), Nível 2...',
+      'Dicionário de Dados: Metadados sobre os dados.',
+      'Fluxograma: Lógica e decisão (Losango).'
     ],
     questions: [
-      {
-        id: 'q4_1',
-        type: QuestionType.MULTIPLE_CHOICE,
-        question: 'No DFD, o que representa um "Retângulo aberto em um dos lados" (ou duas linhas paralelas)?',
-        options: [
-          { id: 'a', text: 'Um Processo', isCorrect: false },
-          { id: 'b', text: 'Uma Entidade Externa', isCorrect: false },
-          { id: 'c', text: 'Um Depósito de Dados', isCorrect: true }
-        ],
-        explanation: 'O depósito de dados é onde a informação repousa (ex: Arquivo, Tabela).'
-      },
-      {
-        id: 'q4_2',
-        type: QuestionType.MULTIPLE_CHOICE,
-        question: 'Qual a principal diferença entre DFD e Fluxograma?',
-        options: [
-          { id: 'a', text: 'O DFD mostra a lógica de decisão (se/então), o Fluxograma não.', isCorrect: false },
-          { id: 'b', text: 'O DFD foca no movimento dos dados; o Fluxograma foca na sequência de controle e decisão.', isCorrect: true },
-          { id: 'c', text: 'São a mesma coisa.', isCorrect: false }
-        ],
-        explanation: 'DFD é sobre DADOS. Fluxograma é sobre CONTROLE e LÓGICA.'
-      }
+      createQ('m4_1', 'Qual o principal objetivo do DFD?', ['Mostrar a lógica de decisão.', 'Mostrar como os dados fluem e são transformados no sistema.', 'Mostrar a interface gráfica.', 'Mostrar o hardware.'], 1, 'DFD foca no movimento e transformação de dados.', 'Medium'),
+      createQ('m4_2', 'No DFD, o que representa um "Círculo" ou "Retângulo com cantos arredondados"?', ['Entidade Externa.', 'Processo.', 'Depósito de Dados.', 'Fluxo.'], 1, 'Representa a transformação (ação) sobre os dados.', 'Easy'),
+      createQ('m4_3', 'No DFD, o que é uma "Entidade Externa"?', ['Um arquivo.', 'O banco de dados.', 'Algo fora do sistema que envia/recebe dados (ex: Cliente).', 'Uma função.'], 2, 'Define as fronteiras do sistema.', 'Medium'),
+      createQ('m4_4', 'Um "Retângulo aberto em um lado" no DFD simboliza:', ['Processo.', 'Depósito de Dados (Armazenamento).', 'Entidade.', 'Fluxo.'], 1, 'Local onde os dados repousam (ex: Tabela, Arquivo).', 'Easy'),
+      createQ('m4_5', 'O "Diagrama de Contexto" (Nível 0) mostra:', ['Detalhes do código.', 'O sistema como um único processo interagindo com o ambiente.', 'As tabelas do banco.', 'A lógica do IF/ELSE.'], 1, 'Visão macroscópica do sistema.', 'Medium'),
+      createQ('m4_6', 'O que é "Explosão" ou "Decomposição" no DFD?', ['Destruir o diagrama.', 'Dividir um processo complexo em subprocessos mais detalhados.', 'Apagar dados.', 'Um erro de sistema.'], 1, 'Técnica para detalhar o sistema em níveis (1, 2, 3...).', 'Hard'),
+      createQ('m4_7', 'O que o Dicionário de Dados (DD) armazena?', ['Os dados reais dos clientes.', 'Metadados: definições, formatos e regras sobre os dados.', 'Senhas.', 'Códigos fontes.'], 1, 'É o "glossário" técnico dos dados.', 'Medium'),
+      createQ('m4_8', 'Qual a diferença entre DFD e Fluxograma?', ['São iguais.', 'DFD foca em dados; Fluxograma foca em controle e lógica de decisão.', 'Fluxograma é para banco de dados.', 'DFD é para hardware.'], 1, 'Fluxogramas mostram "SE/ENTÃO"; DFDs mostram "ONDE VAI".', 'Medium'),
+      createQ('m4_9', 'No Fluxograma, o losango representa:', ['Início.', 'Fim.', 'Decisão (Condicional).', 'Processamento.'], 2, 'Ponto de bifurcação (Sim/Não).', 'Easy'),
+      createQ('m4_10', 'Um DFD Lógico mostra:', ['Como o sistema é construído tecnicamente.', 'O que o sistema faz (negócio) independente da tecnologia.', 'O hardware.', 'A rede.'], 1, 'Foca na essência do negócio.', 'Medium'),
+      createQ('m4_11', 'Um DFD Físico mostra:', ['A lógica pura.', 'Como o sistema é implementado (tecnologia, pessoas, dispositivos).', 'Apenas softwares.', 'Sonhos.'], 1, 'Inclui detalhes de implementação.', 'Hard'),
+      createQ('m4_12', 'Todo fluxo de dados deve:', ['Conectar duas entidades externas.', 'Ter um nome descritivo.', 'Ser invisível.', 'Não ter direção.'], 1, 'Fluxos sem nome geram ambiguidade.', 'Easy'),
+      createQ('m4_13', 'Um processo pode ter apenas saídas (sem entradas)?', ['Sim, é normal.', 'Não, isso seria um "milagre" (geração espontânea).', 'Talvez.', 'Depende do dia.'], 1, 'Processos transformam algo. Sem entrada, não há transformação.', 'Medium'),
+      createQ('m4_14', 'Um processo pode ter apenas entradas (sem saídas)?', ['Sim.', 'Não, isso seria um "buraco negro".', 'Às vezes.', 'Depende.'], 1, 'Dados entram para gerar algum resultado.', 'Medium'),
+      createQ('m4_15', 'Qual a vantagem do DFD?', ['É colorido.', 'Simples de entender e facilita a comunicação com usuários.', 'Gera código automático.', 'Substitui o banco de dados.'], 1, 'Sua notação gráfica é intuitiva.', 'Easy'),
+      createQ('m4_16', 'No Dicionário de Dados, "Tipo de dado" refere-se a:', ['Se é bom ou ruim.', 'Se é Numérico, Texto, Data, etc.', 'A cor do dado.', 'O dono do dado.'], 1, 'Formato técnico do dado.', 'Easy'),
+      createQ('m4_17', 'No Fluxograma, o retângulo representa:', ['Decisão.', 'Processo/Ação.', 'Início.', 'Documento.'], 1, 'Uma instrução ou ação a ser feita.', 'Easy'),
+      createQ('m4_18', 'O que é "Balanceamento" no DFD?', ['Equilibrar as cores.', 'Garantir consistência de entradas/saídas entre os níveis (pai/filho).', 'Usar régua.', 'Pesar o papel.'], 1, 'O que entra no pai deve entrar nos filhos.', 'Hard'),
+      createQ('m4_19', 'Quem usa o DFD?', ['Apenas programadores.', 'Analistas, Usuários e Desenvolvedores.', 'Apenas o CEO.', 'Ninguém mais usa.'], 1, 'Ferramenta de comunicação multidisciplinar.', 'Easy'),
+      createQ('m4_20', 'A Análise Estruturada foca em:', ['Objetos.', 'Funções e Dados.', 'Apenas telas.', 'Apenas banco de dados.'], 1, 'Decomposição funcional do problema.', 'Medium'),
     ]
   },
   {
     id: 'mod5',
-    title: 'Análise Orientada a Objetos & UML',
-    description: 'Classes, Casos de Uso, Herança e Componentes.',
+    title: 'Módulo 05',
+    subtitle: 'Orientação a Objetos',
+    description: 'Conceitos de OO, UML, Diagramas de Classes e Componentes (Aulas 7, 12).',
     icon: 'BoxSelect',
-    color: 'bg-rose-500',
+    color: 'text-rose-400',
+    borderColor: 'border-rose-500/30',
     summary: [
-      'AOO: Foca em objetos do mundo real (Identidade, Atributos, Métodos).',
-      'Pilares: Abstração, Encapsulamento, Herança, Polimorfismo.',
-      'UML - Casos de Uso: Visão funcional (Atores e funcionalidades).',
-      'UML - Classes: Estrutura estática (Atributos e Métodos).',
-      'UML - Componentes: Arquitetura física e módulos.'
+      'Pilares OO: Abstração, Encapsulamento, Herança, Polimorfismo.',
+      'Classe vs Objeto: Molde vs Instância.',
+      'UML: Linguagem de modelagem padrão.',
+      'Diagrama de Casos de Uso: Atores e Funcionalidades.',
+      'Diagrama de Classes: Estrutura estática (Atributos, Métodos, Relacionamentos).',
+      'Diagrama de Componentes: Arquitetura física e módulos.'
     ],
     questions: [
-      {
-        id: 'q5_1',
-        type: QuestionType.MULTIPLE_CHOICE,
-        question: 'No diagrama de classes, temos a classe "Veículo" e as classes "Carro" e "Moto" que derivam dela. Que conceito é esse?',
-        options: [
-          { id: 'a', text: 'Encapsulamento', isCorrect: false },
-          { id: 'b', text: 'Herança (Generalização)', isCorrect: true },
-          { id: 'c', text: 'Associação Simples', isCorrect: false }
-        ],
-        explanation: 'Herança permite que classes especializadas (Carro) herdem atributos/métodos da genérica (Veículo).'
-      },
-      {
-        id: 'q5_2',
-        type: QuestionType.MULTIPLE_CHOICE,
-        question: 'Qual diagrama UML é usado para mostrar QUEM interage com o sistema e O QUE o sistema faz (funcionalidades)?',
-        options: [
-          { id: 'a', text: 'Diagrama de Classes', isCorrect: false },
-          { id: 'b', text: 'Diagrama de Caso de Uso', isCorrect: true },
-          { id: 'c', text: 'Diagrama de Componentes', isCorrect: false }
-        ],
-        explanation: 'O Diagrama de Caso de Uso foca nos Atores e suas interações com as funcionalidades (Use Cases).'
-      }
+      createQ('m5_1', 'O que é uma "Classe"?', ['Uma instância em execução.', 'Um modelo/molde que define atributos e comportamentos.', 'Um arquivo de texto.', 'Uma variável.'], 1, 'A classe é a "forma" que define o objeto.', 'Easy'),
+      createQ('m5_2', 'O que é um "Objeto"?', ['O código fonte.', 'Uma instância concreta de uma classe.', 'Um diagrama.', 'Um erro.'], 1, 'Objeto é a classe em memória/existência.', 'Easy'),
+      createQ('m5_3', 'Qual pilar da OO permite esconder a complexidade interna?', ['Herança.', 'Polimorfismo.', 'Encapsulamento.', 'Abstração.'], 2, 'Protege os dados e expõe apenas o necessário (interfaces).', 'Medium'),
+      createQ('m5_4', 'O que é "Herança"?', ['Copiar e colar código.', 'Mecanismo onde uma classe deriva características de outra (Pai/Filho).', 'Guardar dados no banco.', 'Enviar e-mail.'], 1, 'Permite reuso e hierarquia (ex: Carro é um Veículo).', 'Medium'),
+      createQ('m5_5', 'O que é "Polimorfismo"?', ['Muitas formas: métodos com mesma assinatura comportando-se diferente.', 'Muitas classes.', 'Muitos dados.', 'Muitos erros.'], 0, 'Ex: Método "Mover()" funciona diferente para Carro e Peão.', 'Hard'),
+      createQ('m5_6', 'O Diagrama de Casos de Uso foca em:', ['Estrutura do banco.', 'Código.', 'Interação entre Atores e Funcionalidades (requisitos).', 'Fluxo de rede.'], 2, 'Visão funcional externa.', 'Medium'),
+      createQ('m5_7', 'No Diagrama de Classes, o sinal "+" significa visibilidade:', ['Privada.', 'Pública.', 'Protegida.', 'Pacote.'], 1, 'Público (+) é acessível por todos.', 'Easy'),
+      createQ('m5_8', 'No Diagrama de Classes, o sinal "-" significa visibilidade:', ['Privada.', 'Pública.', 'Protegida.', 'Nula.'], 0, 'Privado (-) acessível apenas pela própria classe.', 'Easy'),
+      createQ('m5_9', 'Uma relação de "Composição" (diamante preenchido) indica:', ['Vínculo fraco.', 'Vínculo forte (vida dependente, Todo-Parte).', 'Herança.', 'Apenas amizade.'], 1, 'Se o Todo morre, a Parte morre (ex: Carro e Motor).', 'Hard'),
+      createQ('m5_10', 'O Diagrama de Componentes mostra:', ['Classes.', 'Organização física e dependências de módulos/arquivos de software.', 'Usuários.', 'Fluxogramas.'], 1, 'Visão arquitetural de implantação.', 'Medium'),
+      createQ('m5_11', 'Qual a vantagem da OO sobre a Estruturada?', ['Mais fácil de aprender.', 'Melhor mapeamento do mundo real e reuso de código.', 'Não precisa de computador.', 'É mais antiga.'], 1, 'Reflete melhor como pensamos sobre objetos reais.', 'Medium'),
+      createQ('m5_12', 'Um "Ator" no Caso de Uso pode ser:', ['Apenas uma pessoa.', 'Uma pessoa, outro sistema ou dispositivo (hardware).', 'Um banco de dados.', 'Um arquivo.'], 1, 'Qualquer agente externo que interage com o sistema.', 'Medium'),
+      createQ('m5_13', 'O relacionamento "Include" no Caso de Uso significa:', ['Opcionalidade.', 'Obrigatóriedade (sempre inclui o comportamento).', 'Erro.', 'Exclusão.'], 1, 'Ação base sempre chama a incluída.', 'Hard'),
+      createQ('m5_14', 'O relacionamento "Extend" no Caso de Uso significa:', ['Obrigatório.', 'Comportamento opcional/condicional.', 'Herança.', 'Erro.'], 1, 'Acontece apenas sob certas condições.', 'Hard'),
+      createQ('m5_15', 'O que é "Abstração"?', ['Focar nos aspectos essenciais e ignorar detalhes irrelevantes.', 'Desenhar mal.', 'Esquecer coisas.', 'Programar rápido.'], 0, 'Simplificação da realidade para modelagem.', 'Medium'),
+      createQ('m5_16', 'Atributos de uma classe representam:', ['O que ela faz.', 'O que ela sabe/é (estado).', 'Quem ela conhece.', 'Onde ela mora.'], 1, 'Características (ex: Cor, Tamanho).', 'Easy'),
+      createQ('m5_17', 'Métodos de uma classe representam:', ['O que ela é.', 'O que ela faz (comportamento).', 'Seu nome.', 'Seu ID.'], 1, 'Ações (ex: Calcular, Salvar).', 'Easy'),
+      createQ('m5_18', 'Persistência em objetos significa:', ['O objeto nunca morre.', 'O estado do objeto é salvo (ex: Banco de Dados) para uso futuro.', 'O objeto é teimoso.', 'O objeto é rápido.'], 1, 'Gravar dados para sobreviver ao fim do processo.', 'Medium'),
+      createQ('m5_19', 'UML significa:', ['Universal Modeling List.', 'Unified Modeling Language.', 'Unique Mode Level.', 'Union Made Light.'], 1, 'Linguagem de Modelagem Unificada.', 'Easy'),
+      createQ('m5_20', 'Qual diagrama é melhor para modelar a estrutura de banco de dados em OO?', ['Caso de Uso.', 'Classes.', 'Sequência.', 'Estados.'], 1, 'Classes mapeiam bem para tabelas (ORM).', 'Medium'),
+    ]
+  },
+  {
+    id: 'mod6',
+    title: 'Módulo 06',
+    subtitle: 'Análise de Requisitos & Modelagem de Dados',
+    description: 'Princípios fundamentais, Requisitos de Usuário vs Sistema e Modelagem de Dados (Aulas 5 e 6).',
+    icon: 'DatabaseBackup',
+    color: 'text-blue-400',
+    borderColor: 'border-blue-500/30',
+    summary: [
+      'Requisitos de Usuário: Linguagem natural, abstratos.',
+      'Requisitos de Sistema: Detalhados, técnicos.',
+      'Métodos Estruturados: Modularização, Documentação intensa.',
+      'Modelagem de Dados: MER (Conceitual) vs Modelo Relacional (Lógico).',
+      'Normalização: 1FN (Atômicos), 2FN (Dependência total da chave), 3FN (Dependência transitiva).'
+    ],
+    questions: [
+      createQ('m6_1', 'Requisitos de Usuário são definidos como:', ['Declarações em linguagem natural do que o sistema deve fazer.', 'Código fonte em Java.', 'Diagramas UML complexos.', 'Scripts de banco de dados.'], 0, 'São escritos para o entendimento do cliente, sem tecniquês.', 'Easy'),
+      createQ('m6_2', 'Requisitos de Sistema diferem dos de Usuário por:', ['Serem mais curtos.', 'Serem detalhados e servirem de base para o contrato e implementação.', 'Serem apenas verbais.', 'Não existirem.'], 1, 'Eles expandem os requisitos de usuário com detalhes técnicos.', 'Medium'),
+      createQ('m6_3', 'Na Análise Estruturada, a "Modularização" visa:', ['Tornar o sistema mais lento.', 'Dividir o sistema em partes menores e independentes.', 'Juntar tudo em um arquivo só.', 'Eliminar a documentação.'], 1, 'Divide para conquistar: facilita manutenção e entendimento.', 'Medium'),
+      createQ('m6_4', 'O Modelo Entidade-Relacionamento (MER) é usado para:', ['Modelar o fluxo de telas.', 'Representar abstratamente os dados e suas relações (Nível Conceitual).', 'Escrever código SQL.', 'Testar o sistema.'], 1, 'É o primeiro passo na modelagem de dados.', 'Medium'),
+      createQ('m6_5', 'No Modelo Relacional, uma "Tupla" corresponde a:', ['Uma coluna.', 'Uma tabela inteira.', 'Uma linha (registro) da tabela.', 'Um banco de dados.'], 2, 'Tupla é o termo técnico para uma linha ou registro.', 'Medium'),
+      createQ('m6_6', 'O que a Primeira Forma Normal (1FN) exige?', ['Que não existam grupos repetitivos e todos os valores sejam atômicos.', 'Que existam chaves estrangeiras.', 'Que a tabela tenha nome.', 'Que não existam colunas.'], 0, 'Cada célula deve ter um único valor indivisível.', 'Hard'),
+      createQ('m6_7', 'Para estar na Segunda Forma Normal (2FN), a tabela deve:', ['Estar na 1FN e não ter dependência parcial da chave primária.', 'Ter apenas uma coluna.', 'Não ter chave primária.', 'Ter cores diferentes.'], 0, 'Atributos não-chave devem depender da chave inteira, não de parte dela.', 'Hard'),
+      createQ('m6_8', 'A Terceira Forma Normal (3FN) remove:', ['Dependências transitivas (atributo dependendo de outro atributo não-chave).', 'Linhas duplicadas.', 'Espaços em branco.', 'Vírus.'], 0, 'Atributos devem depender APENAS da chave primária.', 'Hard'),
+      createQ('m6_9', 'Uma "Chave Primária" (PK) serve para:', ['Deixar a tabela bonita.', 'Identificar unicamente cada registro na tabela.', 'Criptografar dados.', 'Apagar dados.'], 1, 'É o identificador único (RG) do registro.', 'Easy'),
+      createQ('m6_10', 'Uma "Chave Estrangeira" (FK) serve para:', ['Traduzir o texto.', 'Criar um relacionamento referenciando a PK de outra tabela.', 'Bloquear o sistema.', 'Aumentar a velocidade.'], 1, 'Conecta duas tabelas (Integridade Referencial).', 'Medium'),
+      createQ('m6_11', 'A Cardinalidade "1:N" significa:', ['Um para Ninguém.', 'Um para Muitos.', 'Muitos para Muitos.', 'Um para Um.'], 1, 'Ex: Um Cliente faz Muitos Pedidos.', 'Easy'),
+      createQ('m6_12', 'Qual ferramenta NÃO é usada na modelagem de dados?', ['Erwin.', 'MySQL Workbench.', 'Microsoft Word (para desenhar diagramas profissionais).', 'Oracle Data Modeler.'], 2, 'Word não é uma ferramenta de modelagem de dados (CASE) adequada.', 'Easy'),
+      createQ('m6_13', 'A Análise Estruturada foca excessivamente em:', ['Documentação detalhada e processos.', 'Programação rápida.', 'Reuniões diárias.', 'Post-its.'], 0, 'É conhecida por ser "pesada" em documentação.', 'Medium'),
+      createQ('m6_14', 'O que é "Integridade Referencial"?', ['Garantir que uma FK aponte para uma PK válida.', 'Ter ética no trabalho.', 'Não copiar código.', 'Ter backup.'], 0, 'Impede que você venda para um cliente que não existe.', 'Hard'),
+      createQ('m6_15', 'Um atributo "Multivalorado" (ex: Telefone 1, Telefone 2) viola qual forma normal?', ['1FN.', '2FN.', '3FN.', '4FN.'], 0, '1FN exige atomicidade (um valor por campo).', 'Medium'),
+      createQ('m6_16', 'A Modelagem de Dados foca em "O QUE" o sistema armazena ou "COMO" ele processa?', ['COMO processa.', 'O QUE armazena (estrutura).', 'Nenhum dos dois.', 'Apenas na interface.'], 1, 'Foca na estrutura da informação.', 'Easy'),
+      createQ('m6_17', 'Em um MER, um Losango representa:', ['Entidade.', 'Atributo.', 'Relacionamento.', 'Processo.'], 2, 'Losango conecta Entidades.', 'Easy'),
+      createQ('m6_18', 'Em um MER, um Retângulo representa:', ['Entidade.', 'Atributo.', 'Relacionamento.', 'Chave.'], 0, 'Retângulo é o objeto/conceito (Entidade).', 'Easy'),
+      createQ('m6_19', 'Normalização melhora a integridade, mas pode piorar:', ['A segurança.', 'A performance de leitura (devido a muitos JOINS).', 'O espaço em disco.', 'A beleza.'], 1, 'Muitas tabelas exigem junções complexas.', 'Hard'),
+      createQ('m6_20', 'A principal vantagem dos Métodos Estruturados é:', ['Flexibilidade.', 'Controle e previsibilidade.', 'Velocidade.', 'Inovação.'], 1, 'São ótimos para projetos estáveis e críticos.', 'Medium'),
+    ]
+  },
+  {
+    id: 'mod7',
+    title: 'Módulo 07',
+    subtitle: 'Revisão e Ferramentas',
+    description: 'Revisão Geral (AV1) e Ferramentas de Modelagem CASE (Aulas 8 e 9).',
+    icon: 'Wrench',
+    color: 'text-yellow-400',
+    borderColor: 'border-yellow-500/30',
+    summary: [
+      'Revisão: Dados vs Informação, Ciclo de Vida, Requisitos Funcionais/Não-Funcionais.',
+      'Ferramentas CASE: Computer-Aided Software Engineering.',
+      'Upper CASE: Planejamento e Análise (Início).',
+      'Lower CASE: Codificação e Testes (Fim).',
+      'Integrated CASE (I-CASE): Todo o ciclo.',
+      'Diagrams.net (Draw.io): Modelagem visual.'
+    ],
+    questions: [
+      createQ('m7_1', 'O que significa a sigla CASE em "Ferramentas CASE"?', ['Computer-Aided Software Engineering.', 'Computer Analysis System Engineering.', 'Code And System Engineering.', 'Central Area for Software.'], 0, 'Engenharia de Software Auxiliada por Computador.', 'Medium'),
+      createQ('m7_2', 'Ferramentas "Upper CASE" apoiam quais fases?', ['Codificação e Testes.', 'Planejamento e Análise de Requisitos.', 'Manutenção e Suporte.', 'Instalação de hardware.'], 1, 'Apoiam o "topo" do ciclo (fases iniciais).', 'Medium'),
+      createQ('m7_3', 'Ferramentas "Lower CASE" apoiam quais fases?', ['Levantamento de requisitos.', 'Projeto e Programação (Codificação/Testes).', 'Estratégia.', 'Entrevistas.'], 1, 'Apoiam a "base" do ciclo (construção).', 'Medium'),
+      createQ('m7_4', 'Ferramentas "Integrated CASE" (I-CASE) cobrem:', ['Apenas o planejamento.', 'Apenas o código.', 'Todo o ciclo de vida do software.', 'Apenas o banco de dados.'], 2, 'Integram Upper e Lower.', 'Easy'),
+      createQ('m7_5', 'Qual é a principal função do "Diagrams.net" (Draw.io)?', ['Compilar código Java.', 'Criar diagramas e modelos visuais (UML, Fluxogramas).', 'Gerenciar banco de dados.', 'Escrever documentos de texto.'], 1, 'É uma ferramenta de diagramação.', 'Easy'),
+      createQ('m7_6', 'Na revisão de conceitos, "Informação" é:', ['Dado bruto.', 'Dado processado e contextualizado.', 'Hardware.', 'Rede.'], 1, 'Conceito fundamental de SI.', 'Easy'),
+      createQ('m7_7', 'O nível "Operacional" de uma empresa foca em:', ['Longo prazo.', 'Médio prazo.', 'Curto prazo e rotina diária.', 'Visão global.'], 2, 'Foca na execução do dia a dia.', 'Easy'),
+      createQ('m7_8', 'Qual diagrama NÃO é suportado nativamente pelo Draw.io?', ['Nenhum, ele suporta quase todos (UML, DFD, ERD).', 'Diagrama de Classes.', 'Fluxograma.', 'DFD.'], 0, 'Draw.io é muito versátil.', 'Medium'),
+      createQ('m7_9', 'Por que usar ferramentas CASE?', ['Para aumentar o custo.', 'Para automatizar tarefas, melhorar qualidade e padronizar a documentação.', 'Para substituir os programadores.', 'Para deixar o sistema lento.'], 1, 'Aumentam a produtividade e qualidade.', 'Medium'),
+      createQ('m7_10', 'Qual das opções é um exemplo de Requisito Não-Funcional?', ['O sistema deve calcular juros.', 'O sistema deve cadastrar usuários.', 'O sistema deve ser capaz de processar 1000 transações por segundo.', 'O sistema deve emitir notas.'], 2, 'Performance é RNF.', 'Easy'),
+      createQ('m7_11', 'O "Ciclo de Vida" do software termina na fase de:', ['Implementação.', 'Testes.', 'Manutenção/Descontinuação.', 'Análise.'], 2, 'O software "morre" ou evolui na manutenção.', 'Easy'),
+      createQ('m7_12', 'Uma IDE (como VS Code ou Eclipse) com debugger é considerada uma ferramenta:', ['Upper CASE.', 'Lower CASE.', 'I-CASE.', 'Não é CASE.'], 1, 'Ajuda na codificação (Lower).', 'Medium'),
+      createQ('m7_13', 'Qual a principal vantagem da visão "Sistêmica" revisada na Aula 8?', ['Ver as partes isoladas.', 'Ver o todo e a interdependência entre as partes.', 'Ignorar o ambiente.', 'Focar só no código.'], 1, 'Entender que tudo está conectado.', 'Medium'),
+      createQ('m7_14', 'O levantamento de requisitos deve priorizar:', ['A vontade do programador.', 'A necessidade real do negócio/usuário.', 'A tecnologia mais nova.', 'O design mais bonito.'], 1, 'O sistema serve ao negócio.', 'Easy'),
+      createQ('m7_15', 'No Draw.io, para representar um "Processo" no DFD, usamos:', ['Um triângulo.', 'Um círculo ou retângulo arredondado.', 'Uma estrela.', 'Uma linha.'], 1, 'Notação padrão de DFD.', 'Medium'),
+      createQ('m7_16', 'A "Manutenção Adaptativa" revisada na Aula 8 serve para:', ['Corrigir erros.', 'Adaptar o software a mudanças no ambiente (ex: nova versão do SO ou Lei).', 'Adicionar novas funções.', 'Melhorar performance.'], 1, 'Adapta o software para continuar funcionando.', 'Hard'),
+      createQ('m7_17', 'Fatores Internos do ambiente de SI incluem:', ['Governo e Leis.', 'Concorrentes.', 'Cultura organizacional e Processos.', 'Clima.'], 2, 'Estão dentro da empresa.', 'Medium'),
+      createQ('m7_18', 'O que é "Front-End" no contexto de ferramentas CASE?', ['A interface do usuário.', 'As ferramentas Upper CASE (fases iniciais).', 'O código HTML.', 'O banco de dados.'], 1, 'Upper CASE também é chamado de Front-End CASE.', 'Hard'),
+      createQ('m7_19', 'Qual a importância da "Padronização" na modelagem?', ['Nenhuma.', 'Garantir que todos entendam os diagramas da mesma forma (linguagem comum).', 'Deixar o desenho feio.', 'Restringir a criatividade.'], 1, 'Comunicação eficaz exige padrões (como UML).', 'Easy'),
+      createQ('m7_20', 'A ferramenta "Oracle SQL Developer Data Modeler" é focada em:', ['Modelagem de Classes.', 'Modelagem de Dados (ERD).', 'Gerenciamento de Projetos.', 'Edição de Imagens.'], 1, 'Específica para banco de dados.', 'Medium'),
     ]
   }
 ];

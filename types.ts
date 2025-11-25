@@ -1,38 +1,41 @@
 export enum QuestionType {
   MULTIPLE_CHOICE = 'MULTIPLE_CHOICE',
-  DRAG_DROP = 'DRAG_DROP', // Simplified to categorization for this implementation
-  TRUE_FALSE = 'TRUE_FALSE'
+  TRUE_FALSE = 'TRUE_FALSE',
+  ASSOCIATION = 'ASSOCIATION'
 }
 
 export interface Option {
   id: string;
   text: string;
   isCorrect?: boolean;
-  category?: string; // For drag and drop categorization
 }
 
 export interface Question {
   id: string;
   type: QuestionType;
   question: string;
-  context?: string; // Context from the case study (e.g., Car Parts Factory)
+  context?: string; 
   options: Option[];
-  explanation: string; // Feedback based on the slide content
-  imagePlaceholder?: string; // Concept for where a diagram would go
+  explanation: string;
+  difficulty: 'Easy' | 'Medium' | 'Hard';
 }
 
 export interface Module {
   id: string;
   title: string;
+  subtitle: string;
   description: string;
-  icon: string;
-  color: string;
-  summary: string[]; // Bullet points for quick revision before the quiz
+  icon: string; // Lucide icon name
+  color: string; // Tailwind class for text color
+  borderColor: string; // Tailwind class for border
+  summary: string[];
   questions: Question[];
 }
 
 export interface UserState {
   currentModuleId: string | null;
-  completedModules: string[];
+  completedModules: string[]; // IDs of completed modules
   score: number;
+  level: number;
+  rank: string;
 }
